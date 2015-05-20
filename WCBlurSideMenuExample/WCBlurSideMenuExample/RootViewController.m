@@ -18,6 +18,7 @@
     self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menuvc"];
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"navvc"];
     self.blurtype = WCBlurMenuTypeDefault;
+    self.delegate = self;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,7 +29,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)didEndDismissWCblueMenu{
+    NSLog(@"End dismiss");
+}
+-(void)didStartDismissWCBlurMenu{
+    NSLog(@"Start dismiss");
 
+}
+-(void)didStartShowWCBlurMenu{
+    NSLog(@"Start show");
+}
+-(void)didEndShowWCBlurMenu{
+    NSLog(@"End show");
+
+}
 /*
 #pragma mark - Navigation
 

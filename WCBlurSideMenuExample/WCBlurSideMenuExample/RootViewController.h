@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "WCBlurMenu.h"
-@interface RootViewController : WCBlurMenu
+@interface RootViewController : WCBlurMenu<WCBlurMenuDelegate>
 
 @end

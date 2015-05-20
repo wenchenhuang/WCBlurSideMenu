@@ -1,5 +1,4 @@
 # WCGradientCircleLayer
-Draw Gradient Layer from one color to another
 What is it like
 <img src="https://raw.github.com/wenchenhuang/WCBlurSideMenu/master/Screenshots/static.png" width="320" />
 

@@ -53,6 +53,7 @@
         gesture;
     });
 }
+//Handle edge pan gesture
 -(void)catchScreenEdgePan:(UIScreenEdgePanGestureRecognizer *)gesture{
     CGPoint  translation;
     CGPoint velocity;
@@ -80,9 +81,8 @@
             break;
     }
 }
--(void)LogFrame:(CGRect)rect{
-    NSLog(@"%f %f %f %f",rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);
-}
+#pragma mark - private method
+
 -(CGFloat)alphaWithOffset:(CGFloat)offest{
     return MAX(MIN(1.0, offest/[self maxOffset]),0.0);
 }
@@ -107,6 +107,25 @@
     }
     return _contentBackgroundImageview;
 }
+- (void)addContentButton
+{
+    if (self.contentButton.superview)
+        return;
+    
+    self.contentButton.autoresizingMask = UIViewAutoresizingNone;
+    self.contentButton.frame = self.contentView.bounds;
+    self.contentButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.contentView addSubview:self.contentButton];
+}
+
+-(void)removeContentButton{
+    if (self.contentButton.superview == nil) {
+        return;
+    }
+    [self.contentButton removeFromSuperview];
+}
+#pragma mark -  API
+
 -(void)showMenu{
     self.menuView.hidden = NO;
     [self.menuViewController beginAppearanceTransition:YES animated:YES];
@@ -124,11 +143,11 @@
                          self.menuView.alpha = 1.0;
                          self.menuView.frame =CGRectOffset(originFrame, [self maxOffset], 0);
                          self.contentBackgroundImageview.alpha = 1.0;
-                    } completion:^(BOOL finished) {
-                        [self addContentButton];
-                        if ([self.delegate respondsToSelector:@selector(didEndShowWCBlurMenu)]) {
-                            [self.delegate didEndShowWCBlurMenu];
-                        }
+                     } completion:^(BOOL finished) {
+                         [self addContentButton];
+                         if ([self.delegate respondsToSelector:@selector(didEndShowWCBlurMenu)]) {
+                             [self.delegate didEndShowWCBlurMenu];
+                         }
                      }];
 }
 -(void)HideMenu{
@@ -154,23 +173,6 @@
                          }
                      }];
 }
-- (void)addContentButton
-{
-    if (self.contentButton.superview)
-        return;
-    
-    self.contentButton.autoresizingMask = UIViewAutoresizingNone;
-    self.contentButton.frame = self.contentView.bounds;
-    self.contentButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [self.contentView addSubview:self.contentButton];
-}
-
--(void)removeContentButton{
-    if (self.contentButton.superview == nil) {
-        return;
-    }
-    [self.contentButton removeFromSuperview];
-}
 -(instancetype)initWithContenetViewController:(UIViewController *)contentViewController menuViewController:(UIViewController *)menuViewController{
     return [self initWithContenetViewController:contentViewController menuViewController:menuViewController BlurType:WCBlurMenuTypeDefault];
 }
@@ -182,9 +184,6 @@
         
     }
     return self;
-}
--(BOOL)shouldAutorotate{
-    return NO;
 }
 #pragma mark - Snapshot
 - (UIImage *)blurredSnapshotWithFrame:(CGRect)frame {
@@ -198,5 +197,11 @@
     UIGraphicsEndImageContext();
     return blurredSnapshotImage;
 }
+#pragma mark - handle device rotate
+
+-(BOOL)shouldAutorotate{
+    return NO;
+}
+
 
 @end

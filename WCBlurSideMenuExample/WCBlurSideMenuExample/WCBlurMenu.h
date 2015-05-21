@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, WCBlurMenuType) {
 };
 
 @protocol WCBlurMenuDelegate<NSObject>
+
 @optional
 -(void)didStartShowWCBlurMenu;
 -(void)didEndShowWCBlurMenu;

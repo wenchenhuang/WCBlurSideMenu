@@ -17,7 +17,7 @@
 -(void)awakeFromNib{
     self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menuvc"];
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"navvc"];
-    self.blurtype = WCBlurMenuTypeDefault;
+    self.blurtype = WCBlurMenuBlurTypeDark;
     self.delegate = self;
 }
 - (void)viewDidLoad {

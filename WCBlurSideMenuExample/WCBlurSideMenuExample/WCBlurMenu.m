@@ -100,7 +100,7 @@
 -(UIImageView *)contentBackgroundImageview{
     if (!_contentBackgroundImageview) {
         _contentBackgroundImageview = [[UIImageView alloc] initWithFrame:self.contentView.bounds];
-        UIImage * image = [self blurredSnapshotWithFrame:self.contentView.bounds];
+        UIImage * image = [self blurredSnapshotWithFrame:self.contentView.bounds BlurType:self.blurtype];
         _contentBackgroundImageview.image = image;
         _contentBackgroundImageview.autoresizingMask = UIViewAutoresizingFlexibleHeight  | UIViewAutoresizingFlexibleWidth;
         _contentBackgroundImageview.alpha = 0.0;
@@ -173,10 +173,10 @@
                          }
                      }];
 }
--(instancetype)initWithContenetViewController:(UIViewController *)contentViewController menuViewController:(UIViewController *)menuViewController{
-    return [self initWithContenetViewController:contentViewController menuViewController:menuViewController BlurType:WCBlurMenuTypeDefault];
+-(instancetype)initWithContenetViewController:(UIViewController *)contentViewController MenuViewController:(UIViewController *)menuViewController{
+    return [self initWithContenetViewController:contentViewController MenuViewController:menuViewController BlurType:WCBlurMenuBlurTypeDark];
 }
--(instancetype)initWithContenetViewController:(UIViewController *)contentViewController menuViewController:(UIViewController *)menuViewController BlurType:(WCBlurMenuType)type{
+-(instancetype)initWithContenetViewController:(UIViewController *)contentViewController MenuViewController:(UIViewController *)menuViewController BlurType:(WCBlurMenuBlurType)type{
     if (self = [super init]) {
         _contentViewController = contentViewController;
         _menuViewController = menuViewController;
@@ -186,14 +186,25 @@
     return self;
 }
 #pragma mark - Snapshot
-- (UIImage *)blurredSnapshotWithFrame:(CGRect)frame {
+- (UIImage *)blurredSnapshotWithFrame:(CGRect)frame BlurType:(WCBlurMenuBlurType)type{
     UIGraphicsBeginImageContextWithOptions(frame.size, NO, 1.0f);
     [self.contentView drawViewHierarchyInRect:frame afterScreenUpdates:NO];
     UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIImage *blurredSnapshotImage = [snapshotImage applyLightEffect];
-    // Or apply any other effects available in "UIImage+ImageEffects.h"
-    // UIImage *blurredSnapshotImage = [snapshotImage applyDarkEffect];
-    // UIImage *blurredSnapshotImage = [snapshotImage applyExtraLightEffect];
+    UIImage *blurredSnapshotImage;
+    switch (type) {
+        case WCBlurMenuBlurTypeDark:
+            blurredSnapshotImage = [snapshotImage applyDarkEffect];
+            break;
+        case WCBlurMenuBlurTypeExtraLight:
+            blurredSnapshotImage = [snapshotImage applyExtraLightEffect];
+            break;
+        case WCBlurMenuBlurTypeLight:
+            blurredSnapshotImage = [snapshotImage applyLightEffect];
+            break;
+        default:
+            break;
+    }
+
     UIGraphicsEndImageContext();
     return blurredSnapshotImage;
 }

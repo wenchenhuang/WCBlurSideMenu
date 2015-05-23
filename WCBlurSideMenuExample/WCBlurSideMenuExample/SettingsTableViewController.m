@@ -47,6 +47,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.textLabel.text = self.settings[indexPath.row];
     cell.backgroundColor =[UIColor clearColor];
+    cell.textLabel.textColor = [UIColor whiteColor];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
